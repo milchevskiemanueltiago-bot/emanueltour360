@@ -1,11 +1,14 @@
 import { initHero } from './hero.js';
-import { TourViewer } from './tour.js';
+import { bindModal } from './modal.js';
+import { CASES, mobile, reduced } from './data.js';
 
-const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const mobile = matchMedia('(max-width: 760px), (pointer: coarse)').matches;
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const onView = (el, fn, opts = { threshold: 0.3 }) => {
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { fn(e.target); io.unobserve(e.target); } }), opts);
+  io.observe(el);
+};
 
 /* ------------------------------------------------------------------ */
 /* WhatsApp: mensagem pronta por serviço                               */
@@ -14,40 +17,17 @@ const WHATSAPP = '5547997599749';
 const WA_MSG = {
   geral: 'Olá, Emanuel! Vim pelo seu site e gostaria de conversar.',
   orcamento: 'Olá, Emanuel! Vim pelo seu site e gostaria de solicitar um orçamento.',
+  tour: 'Olá, Emanuel! Vi os tours 360° no seu site e quero um para a minha empresa.',
   seo: 'Olá, Emanuel! Quero posicionar minha empresa no Google com tour virtual 360°.',
   imersivo: 'Olá, Emanuel! Tenho interesse em um projeto digital imersivo exclusivo.',
-  audiovisual: 'Olá, Emanuel! Tenho interesse em produção audiovisual (vídeo, fotos e drone).',
-  site: 'Olá, Emanuel! Quero um site personalizado / bio-site para minha empresa.',
+  audiovisual: 'Olá, Emanuel! Tenho interesse em produção audiovisual (vídeo, fotos, drone ou IA).',
+  site: 'Olá, Emanuel! Quero um site / bio-site e o cartão NFC de avaliação para minha empresa.',
 };
 $$('[data-wa]').forEach((a) => {
   a.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(WA_MSG[a.dataset.wa] || WA_MSG.orcamento)}`;
   a.target = '_blank';
   a.rel = 'noopener';
 });
-
-/* ------------------------------------------------------------------ */
-/* Tours 360°                                                          */
-/* ------------------------------------------------------------------ */
-const TOURS = {
-  lagom: {
-    name: 'Lagom Perequê', place: 'Itapema · Santa Catarina', lon: 48, lat: 2,
-    maps: 'https://www.google.com/maps/place/Lagom+Perequ%C3%AA+-+Porto+Belo/@-27.1498755,-48.5828492,3a,75y,4.6h,89.76t/data=!3m7!1e1!3m5!1sCIABIhAtq8hDXiV7Y5l3fAGgkEXU!2e10!7i11968!8i5984!4m9!3m8!1s0x94d8afac199b2585:0xbb5825314aa6d305!8m2!3d-27.1488594!4d-48.581779!10e5!16s%2Fg%2F11vj56j3mz',
-  },
-  majestic: {
-    name: 'Majestic Palace Hotel', place: 'Florianópolis · Santa Catarina', lon: 232, lat: 6,
-    maps: 'https://www.google.com/maps/place/Majestic+Palace+Hotel/@-27.5832155,-48.5444415,3a,75y,163.42h,94.23t/data=!3m7!1e1!3m5!1sCIABIhBSHCPmwdMnpmnRPJyOaoOh!2e10!7i8400!8i4200!4m12!3m11!1s0x952738114f2ff87d:0xb271411bf8880135!5m2!4m1!1i2!8m2!3d-27.5833216!4d-48.5444964!10e5!16s%2Fg%2F1w2y_m6c',
-  },
-  concept: {
-    name: 'Academia Concept Club', place: 'Itapema · Santa Catarina', lon: 252, lat: 4,
-    maps: 'https://www.google.com/maps/place/Academia+Concept+Club/@-27.142847,-48.5840579,3a,75y,68.31h,76.2t/data=!3m7!1e1!3m5!1sCIABIhCMU8FDmvfKUOAuT5kHbs10!2e10!7i11968!8i5984!4m9!3m8!1s0x94d8afa1a6d504bd:0xdd79f675eeb97eae!8m2!3d-27.1429208!4d-48.5841015!10e5!16s%2Fg%2F11zbmqzzhp',
-  },
-  castello: {
-    name: 'Castello Dal Pozzo', place: 'Oleggio Castello · Itália', lon: 196, lat: 6,
-    maps: 'https://www.google.com/maps/place/Castello+Dal+Pozzo/@45.7521437,8.5313718,3a,75y,149.08h,89.24t/data=!3m8!1e1!3m6!1sCIABIhBZ-GlfQrNEo_5YQE0Dz7_m!2e10!3e11!7i6530!8i3265!4m12!3m11!1s0x478671f64a13d927:0x9da3b7c69ee36550!5m2!4m1!1i2!8m2!3d45.7518584!4d8.5312244!10e5!16s%2Fg%2F11hdb9dw2_',
-  },
-};
-const panoUrl = (k) => `assets/pano/${k}-${mobile ? '2k' : '4k'}.webp`;
-$$('[data-maps]').forEach((a) => { a.href = TOURS[a.dataset.maps].maps; });
 
 /* ------------------------------------------------------------------ */
 /* Smooth scroll                                                       */
@@ -58,8 +38,8 @@ if (window.Lenis && !reduced) {
   const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
   requestAnimationFrame(raf);
 }
-function scrollToEl(el) {
-  if (lenis) lenis.scrollTo(el, { duration: 1.8 });
+function scrollToEl(el, offset = 0) {
+  if (lenis) lenis.scrollTo(el, { duration: 1.6, offset });
   else el.scrollIntoView({ behavior: 'smooth' });
 }
 $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
@@ -72,13 +52,29 @@ $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
 }));
 
 /* ------------------------------------------------------------------ */
-/* Hero                                                                */
+/* Cases grid (built from data)                                        */
+/* ------------------------------------------------------------------ */
+$('#cases').innerHTML = CASES.map((c, i) => `
+  <button class="case reveal" type="button" data-tour="${c.key}" style="--d:${(i % 3) * 0.07}s">
+    <span class="case-img"><img src="assets/cases/${c.key}.webp" alt="" loading="lazy"><span class="case-360"><svg class="i"><use href="#i-360"/></svg></span></span>
+    ${c.logo ? `<img class="case-logo" src="assets/cases/${c.logo}.webp" alt="" loading="lazy">` : ''}
+    <span class="case-body">
+      <span class="case-place">${c.place}</span>
+      <b>${c.name}</b>
+      <em>${c.brand || c.segment}</em>
+      <span class="case-cta">Entrar no tour 360° <svg class="i"><use href="#i-arrow"/></svg></span>
+    </span>
+  </button>`).join('');
+
+/* ------------------------------------------------------------------ */
+/* Hero + modal                                                        */
 /* ------------------------------------------------------------------ */
 const loader = $('#loader');
 const done = () => loader.classList.add('done');
-initHero({ mobile, reduced }).then(() => setTimeout(done, 250)).catch(done);
-setTimeout(done, 6000); // never keep the visitor waiting
-if (location.search.includes('debug')) { loader.style.display = 'none'; window.__tour = (k) => { openTour(k); return k; }; window.__tourRender = () => tourViewer.renderOnce(); }
+initHero().then(() => setTimeout(done, 250)).catch(done);
+setTimeout(done, 6000);
+bindModal(lenis);
+if (location.search.includes('debug')) loader.style.display = 'none';
 
 const topbar = $('#topbar');
 const hero = $('#hero');
@@ -86,15 +82,13 @@ const hero = $('#hero');
 /* ------------------------------------------------------------------ */
 /* Reveal + counters                                                   */
 /* ------------------------------------------------------------------ */
-function countUp(el) {
-  const target = +el.dataset.count, suffix = el.dataset.suffix || '';
-  const dur = 1800 + Math.min(1200, target / 10);
+const fmt = (n, suffix = '') => Math.round(n).toLocaleString('pt-BR') + suffix;
+function countTo(el, from, to, suffix = '', dur = 1800) {
+  if (reduced) { el.textContent = fmt(to, suffix); return; }
   const t0 = performance.now();
-  const fmt = (n) => Math.round(n).toLocaleString('pt-BR') + suffix;
-  if (reduced) { el.textContent = fmt(target); return; }
   const step = (now) => {
     const k = clamp((now - t0) / dur);
-    el.textContent = fmt(target * (1 - Math.pow(1 - k, 4)));
+    el.textContent = fmt(from + (to - from) * (1 - Math.pow(1 - k, 4)), suffix);
     if (k < 1) requestAnimationFrame(step);
   };
   requestAnimationFrame(step);
@@ -103,17 +97,14 @@ const io = new IntersectionObserver((entries) => {
   entries.forEach((e) => {
     if (!e.isIntersecting) return;
     e.target.classList.add('in');
-    $$('[data-count]', e.target).forEach(countUp);
-    if (e.target.matches('[data-count]')) countUp(e.target);
+    $$('[data-count]', e.target).forEach((el) => countTo(el, 0, +el.dataset.count, el.dataset.suffix || ''));
     io.unobserve(e.target);
   });
-}, { threshold: 0.18, rootMargin: '0px 0px -6% 0px' });
+}, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
 $$('.reveal').forEach((el) => io.observe(el));
 
-/* client marquees: duplicate the track so the loop is seamless */
 $$('.marquee-track').forEach((t) => { t.insertAdjacentHTML('beforeend', t.innerHTML.replace(/<span>/g, '<span aria-hidden="true">')); });
 
-/* manifesto: words light up as you scroll */
 const words = $('[data-words]');
 if (words) {
   const GOLD = new Set(['escolha.', 'decide']);
@@ -122,98 +113,132 @@ if (words) {
 const wordEls = words ? $$('.w', words) : [];
 
 /* ------------------------------------------------------------------ */
-/* Tours gallery                                                       */
+/* Plano Premium: layers                                               */
 /* ------------------------------------------------------------------ */
-const viewerEl = $('#viewer');
-const tourViewer = new TourViewer($('#tour-canvas'), { fov: mobile ? 82 : 72, autoRotate: 4 });
-const tName = $('#tour-name'), tPlace = $('#tour-place'), tLink = $('#tour-link');
-const hint = $('#viewer-hint');
-let currentTour = null;
-function openTour(key, { scroll = false } = {}) {
-  const t = TOURS[key];
-  if (!t) return;
-  $$('.tour-tab').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tour === key)));
-  if (key !== currentTour) {
-    currentTour = key;
-    tName.style.opacity = 0;
-    setTimeout(() => { tName.textContent = t.name; tPlace.textContent = t.place; tName.style.opacity = 1; }, 250);
-    tLink.href = t.maps;
-    tourViewer.show(panoUrl(key), { lon: t.lon, lat: t.lat });
-  }
-  if (scroll) scrollToEl(viewerEl);
+const layers = $$('.layer');
+const panels = $$('.lp');
+function showLayer(i, { scroll = false } = {}) {
+  layers.forEach((b, k) => b.setAttribute('aria-selected', String(k === i)));
+  panels.forEach((p, k) => {
+    const on = k === i;
+    p.hidden = !on;
+    p.classList.remove('play');
+    if (on) {
+      $$('li, .lp-note', p).forEach((li, n) => li.style.setProperty('--i', n));
+      void p.offsetWidth; // restart the staggered entrance
+      p.classList.add('play');
+    }
+  });
+  if (scroll && mobile) scrollToEl($('#layer-panels'), -90);
 }
-$$('.tour-tab').forEach((b) => b.addEventListener('click', () => openTour(b.dataset.tour)));
-$$('[data-open-tour]').forEach((b) => b.addEventListener('click', () => openTour(b.dataset.openTour, { scroll: true })));
-let preloaded = false;
-new IntersectionObserver(([e]) => {
-  tourViewer.active = e.isIntersecting;
-  if (e.isIntersecting && !currentTour) openTour('lagom');
-  if (e.isIntersecting && !preloaded) {
-    preloaded = true;
-    setTimeout(() => Object.keys(TOURS).forEach((k) => tourViewer.preload(panoUrl(k))), 1500);
-  }
-}, { rootMargin: '200px 0px' }).observe(viewerEl);
-$('#tour-canvas').addEventListener('pointerdown', () => hint.classList.add('gone'), { once: true });
+layers.forEach((b, i) => b.addEventListener('click', () => showLayer(i, { scroll: true })));
+onView($('.layers'), () => showLayer(0), { threshold: 0.3 });
 
-/* compass */
-const ticks = $('#compass-ticks');
-let tickSvg = '';
-for (let a = 0; a < 360; a += 15) {
-  const major = a % 90 === 0;
-  const r1 = major ? 40 : 45, r2 = 51;
-  const rad = (a - 90) * Math.PI / 180;
-  tickSvg += `<line class="${major ? 'major' : ''}" x1="${(60 + r1 * Math.cos(rad)).toFixed(2)}" y1="${(60 + r1 * Math.sin(rad)).toFixed(2)}" x2="${(60 + r2 * Math.cos(rad)).toFixed(2)}" y2="${(60 + r2 * Math.sin(rad)).toFixed(2)}"/>`;
+/* ------------------------------------------------------------------ */
+/* Report: 6 → 12 months                                               */
+/* ------------------------------------------------------------------ */
+const SERIES = [192, 184, 172, 160, 146, 131, 116, 98, 80, 62, 43, 22];
+(function buildChart() {
+  const pts = SERIES.map((y, i) => [i * 100, y]);
+  let d = `M${pts[0][0]} ${pts[0][1]}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[Math.max(0, i - 1)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(pts.length - 1, i + 2)];
+    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+    const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+    d += ` C${c1[0].toFixed(1)} ${c1[1].toFixed(1)} ${c2[0].toFixed(1)} ${c2[1].toFixed(1)} ${p2[0]} ${p2[1]}`;
+  }
+  $('#chart-line').setAttribute('d', d);
+  $('#chart-area').setAttribute('d', `${d} V220 H0Z`);
+})();
+const clipRect = $('#chart-clip-rect');
+const dash = $('#dash');
+let period = 0, clipW = 0, autoTimer = null;
+function animateClip(to) {
+  const from = clipW, t0 = performance.now(), dur = reduced ? 1 : 1600;
+  const step = (now) => {
+    const k = clamp((now - t0) / dur);
+    clipW = from + (to - from) * (1 - Math.pow(1 - k, 3));
+    clipRect.setAttribute('width', clipW.toFixed(1));
+    if (k < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
 }
-ticks.innerHTML = tickSvg;
-const deg = $('#compass-deg');
-tourViewer.onChange((h) => {
-  ticks.setAttribute('transform', `rotate(${(-h).toFixed(2)} 60 60)`);
-  deg.textContent = `${Math.round(h)}°`;
+function setPeriod(m) {
+  if (m === period) return;
+  const prev = period;
+  period = m;
+  $$('[data-period]').forEach((b) => b.setAttribute('aria-selected', String(+b.dataset.period === m)));
+  $$('.kpi', dash).forEach((k) => {
+    const b = $('b', k), i = $('i', k);
+    countTo(b, prev ? +b.dataset[`v${prev}`] : 0, +b.dataset[`v${m}`]);
+    i.textContent = i.dataset[`p${m}`];
+  });
+  dash.classList.toggle('is12', m === 12);
+  animateClip(m === 12 ? 1100 : 505);
+}
+$$('[data-period]').forEach((b) => b.addEventListener('click', () => { clearTimeout(autoTimer); setPeriod(+b.dataset.period); }));
+onView(dash, () => { setPeriod(6); autoTimer = setTimeout(() => setPeriod(12), 3200); }, { threshold: 0.45 });
+
+/* ------------------------------------------------------------------ */
+/* Solutions: card fans                                                */
+/* ------------------------------------------------------------------ */
+const decks = $$('[data-deck]');
+function layoutDeck(sol) {
+  const deck = $('.deck', sol);
+  const cards = $$('.dc', deck);
+  const n = cards.length;
+  if (mobile) return;
+  // cards share the row: when open they sit side by side without covering each other
+  const cw = Math.max(150, Math.min(210, (deck.clientWidth - (n - 1) * 14) / n));
+  deck.style.setProperty('--cw', `${cw.toFixed(1)}px`);
+  deck.classList.toggle('compact', cw < 172);
+  const step = Math.min(cw + 14, (deck.clientWidth - cw) / Math.max(1, n - 1));
+  deck.style.setProperty('--step', `${step.toFixed(1)}px`);
+  deck.style.setProperty('--mid', ((n - 1) / 2).toFixed(2));
+  cards.forEach((c, i) => c.style.setProperty('--i', i));
+}
+function openDeck(sol) {
+  sol.classList.add('open');
+  $$('video', sol).forEach((v) => { if (!v.getAttribute('src')) v.src = v.dataset.src; v.play().catch(() => {}); });
+}
+decks.forEach((sol) => {
+  layoutDeck(sol);
+  if (!mobile) sol.addEventListener('mouseenter', () => openDeck(sol));
+  onView(sol, openDeck, { threshold: mobile ? 0.2 : 0.5 });
+  new IntersectionObserver(([e]) => {
+    $$('video', sol).forEach((v) => { if (!e.isIntersecting) v.pause(); else if (sol.classList.contains('open')) v.play().catch(() => {}); });
+  }).observe(sol);
+});
+addEventListener('resize', () => decks.forEach(layoutDeck));
+
+/* ------------------------------------------------------------------ */
+/* História / Biografia: click, hover or scroll                        */
+/* ------------------------------------------------------------------ */
+$$('[data-reveal]').forEach((btn) => {
+  const panel = document.getElementById(btn.dataset.reveal);
+  const open = () => { panel.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); btn.classList.add('active'); };
+  btn.addEventListener('click', () => {
+    const isOpen = panel.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(isOpen));
+    btn.classList.toggle('active', isOpen);
+  });
+  if (!mobile) btn.addEventListener('mouseenter', open);
+  onView(btn, open, { rootMargin: '0px 0px -38% 0px', threshold: 1 });
 });
 
 /* ------------------------------------------------------------------ */
-/* Plano Premium: 3D ring                                              */
-/* ------------------------------------------------------------------ */
-const metodo = $('#metodo');
-const ring = $('#ring');
-const pillars = $$('.pillar', ring);
-const monthsBar = $('#months-bar');
-const STEP = 360 / pillars.length;
-function ringRadius() {
-  const cw = pillars[0].offsetWidth || 300;
-  return Math.round((cw / 2) / Math.tan(Math.PI / pillars.length) * 1.12);
-}
-let R = ringRadius();
-addEventListener('resize', () => { R = ringRadius(); });
-
-/* ------------------------------------------------------------------ */
-/* Castello video: load + play only when visible                       */
+/* Castello video                                                      */
 /* ------------------------------------------------------------------ */
 const video = $('#castello-video');
 const phone = $('#phone');
 new IntersectionObserver(([e]) => {
-  if (e.isIntersecting) {
-    if (!video.getAttribute('src')) video.src = 'assets/video/castello.mp4';
-    video.play().catch(() => {});
-  } else video.pause();
+  if (e.isIntersecting) { if (!video.getAttribute('src')) video.src = 'assets/video/castello.mp4'; video.play().catch(() => {}); } else video.pause();
 }, { threshold: 0.25 }).observe(video);
 
 /* ------------------------------------------------------------------ */
-/* Cards: 3D tilt + light                                              */
+/* Planet (closing section) — loaded only when near                    */
 /* ------------------------------------------------------------------ */
-if (!mobile) {
-  $$('[data-tilt]').forEach((card) => {
-    card.addEventListener('pointermove', (e) => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-      card.style.setProperty('--ry', `${((x - 0.5) * 12).toFixed(2)}deg`);
-      card.style.setProperty('--rx', `${((0.5 - y) * 10).toFixed(2)}deg`);
-      card.style.setProperty('--mx', `${(x * 100).toFixed(1)}%`);
-      card.style.setProperty('--my', `${(y * 100).toFixed(1)}%`);
-    });
-    card.addEventListener('pointerleave', () => { card.style.setProperty('--rx', '0deg'); card.style.setProperty('--ry', '0deg'); });
-  });
-}
+onView($('#planet'), (c) => import('./planet.js').then((m) => m.initPlanet(c)), { rootMargin: '600px 0px' });
 
 /* ------------------------------------------------------------------ */
 /* Custom cursor over 360° canvases                                    */
@@ -234,38 +259,16 @@ if (!mobile) {
 /* ------------------------------------------------------------------ */
 /* Per-frame scroll effects                                            */
 /* ------------------------------------------------------------------ */
-function sectionProgress(el) {
-  const r = el.getBoundingClientRect();
-  return clamp(-r.top / Math.max(1, r.height - innerHeight));
-}
 function tick() {
   requestAnimationFrame(tick);
   const vh = innerHeight;
   topbar.classList.toggle('solid', hero.getBoundingClientRect().bottom < 80);
-
   if (wordEls.length) {
     const r = words.getBoundingClientRect();
     const k = clamp((vh * 0.85 - r.top) / (r.height + vh * 0.35));
     const n = Math.round(k * wordEls.length);
     wordEls.forEach((w, i) => w.classList.toggle('on', i < n));
   }
-
-  const mr = metodo.getBoundingClientRect();
-  if (mr.top < vh && mr.bottom > 0) {
-    const p = sectionProgress(metodo);
-    // snap: each pillar rests at the front for a moment before the ring turns again
-    const pos = p * (pillars.length - 1), base = Math.floor(pos), f = pos - base;
-    const snapped = base + (f <= 0.3 ? 0 : f >= 0.7 ? 1 : (() => { const t = (f - 0.3) / 0.4; return t * t * (3 - 2 * t); })());
-    const rot = -snapped * STEP;
-    ring.style.transform = `translateZ(${-R}px) rotateY(${rot.toFixed(2)}deg)`;
-    const frontIdx = ((Math.round(-rot / STEP) % pillars.length) + pillars.length) % pillars.length;
-    pillars.forEach((el, i) => {
-      el.style.transform = `rotateY(${i * STEP}deg) translateZ(${R}px)`;
-      el.classList.toggle('front', i === frontIdx);
-    });
-    monthsBar.style.setProperty('--m', (0.08 + p * 0.92).toFixed(3));
-  }
-
   const pr = phone.getBoundingClientRect();
   if (pr.top < vh && pr.bottom > 0) {
     const k = clamp((vh - pr.top) / (vh + pr.height));
