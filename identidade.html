@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Identidade Visual — Emanuel Tour360</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .board { max-width: 1180px; margin: 0 auto; padding: 120px var(--gutter) 80px; }
+    .block { padding: 72px 0; border-top: 1px solid var(--line); }
+    .block h2 { margin: 0 0 8px; font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 3.6vw, 48px); }
+    .block > p.note { margin: 0 0 40px; max-width: 60ch; color: var(--muted); font-weight: 300; }
+    .lockup-xl { display: flex; align-items: center; gap: clamp(16px, 3vw, 32px); color: var(--text); }
+    .lockup-xl svg { width: clamp(84px, 13vw, 150px); height: auto; aspect-ratio: 1; }
+    .lockup-xl .brand-name { font-size: clamp(40px, 7vw, 92px); letter-spacing: -.03em; }
+    .lockup-xl .brand-sub { font-size: clamp(12px, 1.6vw, 20px); margin-top: clamp(6px, 1vw, 14px); letter-spacing: .5em; }
+    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .tile { border: 1px solid var(--line); border-radius: 18px; padding: 28px; min-height: 220px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+    .tile small { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+    .tile.light { background: #f2efe8; color: #0b0c0f; border-color: transparent; }
+    .tile.light small { color: #6d6a63; }
+    .tile.gold { background: linear-gradient(160deg, #ecd9ae, #d4b47a 60%, #b8975c); color: #15120c; border-color: transparent; }
+    .tile.gold small { color: rgba(21, 18, 12, .7); }
+    .tile .brand-mark { width: 54px; height: 54px; }
+    .mono-dark { --gold: #0b0c0f; }
+    .mono-gold { --gold: #15120c; }
+    .app-icon { width: 96px; height: 96px; border-radius: 24px; background: radial-gradient(120% 120% at 30% 20%, #23262c, #0b0c0f 60%); display: grid; place-items: center; color: var(--text); box-shadow: 0 20px 50px -20px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.08); }
+    .app-icon svg { width: 62px; height: 62px; }
+    .meaning { display: grid; gap: 28px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); counter-reset: m; }
+    .meaning div { padding-top: 20px; border-top: 1px solid var(--line); }
+    .meaning b { display: block; margin-bottom: 8px; font-weight: 500; }
+    .meaning span { color: var(--muted); font-weight: 300; font-size: 15px; }
+    .meaning em { color: var(--gold); font-style: normal; }
+    .swatches { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+    .sw { border-radius: 16px; overflow: hidden; border: 1px solid var(--line); }
+    .sw i { display: block; height: 120px; }
+    .sw div { padding: 14px 16px; font-size: 13px; }
+    .sw div span { display: block; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+    .g-row { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 18px; color: var(--muted); font-size: 14px; }
+    .g-row .g-word { font-size: 40px; }
+    .type { display: grid; gap: 32px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .type .sample-serif { font-family: var(--serif); font-size: clamp(56px, 7vw, 96px); line-height: .95; }
+    .type .sample-serif em { color: var(--gold-2); }
+    .type .sample-sans { font-size: clamp(28px, 3vw, 40px); font-weight: 500; letter-spacing: -.02em; line-height: 1.1; }
+    .portrait { display: grid; gap: clamp(24px, 4vw, 56px); grid-template-columns: minmax(0, 420px) minmax(0, 1fr); align-items: end; }
+    @media (max-width: 820px) { .portrait { grid-template-columns: 1fr; } }
+    .photo { position: relative; border-radius: 22px; overflow: hidden; aspect-ratio: 4 / 5; background: #0b0c0f; }
+    .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; filter: grayscale(1) contrast(1.12) brightness(.92); }
+    .photo::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(160deg, rgba(212, 180, 122, .35), rgba(7, 8, 10, 0) 55%); mix-blend-mode: soft-light; }
+    .photo::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, transparent 55%, rgba(7, 8, 10, .85)); }
+    .photo figcaption { position: absolute; z-index: 2; left: 24px; right: 24px; bottom: 22px; display: flex; justify-content: space-between; align-items: end; gap: 12px; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: rgba(242, 239, 232, .8); }
+    .photo figcaption svg { width: 30px; height: 30px; color: var(--text); }
+    .portrait blockquote { margin: 0; font-family: var(--serif); font-size: clamp(30px, 3.4vw, 50px); line-height: 1.05; }
+    .portrait blockquote em { color: var(--gold-2); }
+    .portrait cite { display: block; margin-top: 22px; font-family: var(--sans); font-style: normal; font-size: 14px; color: var(--muted); }
+    .back { margin-top: 40px; }
+    .topbar { background: rgba(7, 8, 10, .72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="et-mark" viewBox="0 0 64 64">
+      <circle cx="32" cy="32" r="27" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="148 21.6" transform="rotate(-24 32 32)"/>
+      <circle cx="50.4" cy="12.3" r="3.6" style="fill:var(--gold)"/>
+      <path d="M22 23H42" style="stroke:var(--gold)" stroke-width="4.4" stroke-linecap="round"/>
+      <path d="M22 32H36M22 41H42" stroke="currentColor" stroke-width="4.4" stroke-linecap="round"/>
+    </symbol>
+  </svg>
+
+  <header class="topbar">
+    <a class="brand" href="index.html"><svg class="brand-mark"><use href="#et-mark"/></svg><span class="brand-text"><span class="brand-name">Emanuel</span><span class="brand-sub">Tour360</span></span></a>
+    <a class="btn btn-ghost btn-sm" href="index.html"><span>Voltar ao site</span></a>
+  </header>
+
+  <main class="board">
+    <p class="eyebrow">Identidade visual · versão 1 para aprovação</p>
+    <div class="lockup-xl">
+      <svg><use href="#et-mark"/></svg>
+      <span class="brand-text"><span class="brand-name">Emanuel</span><span class="brand-sub">Tour360</span></span>
+    </div>
+
+    <section class="block">
+      <h2>O símbolo</h2>
+      <p class="note">Um único desenho que conta o que você faz, sem precisar explicar.</p>
+      <div class="meaning">
+        <div><b>A órbita</b><span>O círculo aberto é a volta completa de um <em>tour 360°</em>: a câmera que gira e mostra tudo.</span></div>
+        <div><b>O ponto dourado</b><span>O seu ponto de vista percorrendo a órbita. É também o <em>pino no mapa</em> onde o cliente encontra a empresa.</span></div>
+        <div><b>As três linhas</b><span>Formam o <em>E</em> de Emanuel e representam três resultados de busca. A primeira é dourada: <em>o topo do Google</em>.</span></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Aplicações</h2>
+      <p class="note">Funciona em fundo escuro, claro, dourado e como ícone de aplicativo ou foto de perfil.</p>
+      <div class="grid">
+        <div class="tile"><small>Principal · fundo escuro</small><a class="brand"><svg class="brand-mark"><use href="#et-mark"/></svg><span class="brand-text"><span class="brand-name">Emanuel</span><span class="brand-sub">Tour360</span></span></a></div>
+        <div class="tile light mono-dark"><small>Fundo claro</small><span class="brand" style="color:#0b0c0f"><svg class="brand-mark" style="--gold:#9c7c45"><use href="#et-mark"/></svg><span class="brand-text"><span class="brand-name">Emanuel</span><span class="brand-sub" style="color:#9c7c45">Tour360</span></span></span></div>
+        <div class="tile gold mono-gold"><small>Sobre dourado</small><span class="brand" style="color:#15120c"><svg class="brand-mark"><use href="#et-mark"/></svg><span class="brand-text"><span class="brand-name">Emanuel</span><span class="brand-sub" style="color:#15120c">Tour360</span></span></span></div>
+        <div class="tile"><small>Ícone · perfil · favicon</small><div class="app-icon"><svg><use href="#et-mark"/></svg></div></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Cores</h2>
+      <p class="note">Base de luxo em preto, grafite e marfim. O dourado é usado com moderação, só onde existe valor.</p>
+      <div class="swatches">
+        <div class="sw"><i style="background:#07080a"></i><div>Preto profundo<span>#07080A</span></div></div>
+        <div class="sw"><i style="background:#121418"></i><div>Grafite<span>#121418</span></div></div>
+        <div class="sw"><i style="background:#f2efe8"></i><div>Marfim<span>#F2EFE8</span></div></div>
+        <div class="sw"><i style="background:#d4b47a"></i><div>Dourado<span>#D4B47A</span></div></div>
+        <div class="sw"><i style="background:#ecd9ae"></i><div>Champagne<span>#ECD9AE</span></div></div>
+      </div>
+      <div class="g-row">
+        <span class="g-word" aria-label="Google"><b class="gb">G</b><b class="gr">o</b><b class="gy">o</b><b class="gb">g</b><b class="gg">l</b><b class="gr">e</b></span>
+        <span>As cores do Google (inclusive o vermelho) aparecem apenas na palavra “Google”, como selo de autoridade.</span>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Tipografia</h2>
+      <p class="note">Serifada elegante para emoção e títulos; sem serifa geométrica, no espírito Apple, para dados e leitura.</p>
+      <div class="type">
+        <div><small class="eyebrow">Instrument Serif · títulos</small><p class="sample-serif" style="margin:0">Encontrada,<br>valorizada, <em>lembrada</em>.</p></div>
+        <div><small class="eyebrow">Geist · textos e números</small><p class="sample-sans" style="margin:0">Entrega em 72h · 360° · 4K<br><span style="color:var(--muted);font-weight:300">Tecnologia que valoriza marcas.</span></p></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Sua foto</h2>
+      <p class="note">Tratamento em preto e branco com luz dourada: tira o vermelho do carro do fundo, uniformiza com a marca e passa autoridade.</p>
+      <div class="portrait">
+        <figure class="photo" style="margin:0">
+          <img src="assets/img/emanuel.webp" alt="Emanuel, fundador da Emanuel Tour360">
+          <figcaption><span>Emanuel · Fundador</span><svg><use href="#et-mark"/></svg></figcaption>
+        </figure>
+        <blockquote>“Eu não entrego fotos. Eu coloco a sua empresa <em>onde as decisões acontecem</em>.”<cite>Emanuel — Posicionamento no Google e experiências 360°</cite></blockquote>
+      </div>
+    </section>
+
+    <a class="btn btn-gold back" href="index.html"><span>Voltar para a abertura do site</span></a>
+  </main>
+</body>
+</html>
