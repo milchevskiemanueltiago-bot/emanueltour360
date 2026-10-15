@@ -712,3 +712,87 @@ html.modal-open { overflow: hidden; }
   .squares-7 .sq { flex-basis: calc((100% - 3 * 14px) / 4); max-width: 260px; }
 }
 @media (max-width: 760px) { .st-label { font-size: 8.5px; letter-spacing: .1em; } .st-score { font-size: 34px; } }
+
+/* =====================================================================
+   v6 — movimento próprio em cada quadro (câmera e cartão NFC)
+   ===================================================================== */
+
+/* ícones do bloco 02 flutuando com brilho */
+.sq-art .sq-icon { animation: iconfloat 5.5s ease-in-out infinite; }
+.sq-art .sq-ref { animation: refglow 5.5s ease-in-out infinite; }
+@keyframes iconfloat { 0%, 100% { transform: translateY(0) rotate(0deg); filter: drop-shadow(0 8px 24px rgba(212, 180, 122, .3)); } 50% { transform: translateY(-8px) rotate(-2deg); filter: drop-shadow(0 16px 30px rgba(212, 180, 122, .6)); } }
+@keyframes refglow { 50% { box-shadow: 0 0 24px -4px rgba(212, 180, 122, .55); } }
+
+/* ---------- câmera: visor ao vivo ---------- */
+.fx-cam img { animation: camsway 9s ease-in-out infinite; transform-origin: 50% 55%; }
+@keyframes camsway { 0%, 100% { transform: perspective(700px) rotateY(-7deg) rotateX(2deg) scale(1.1); } 50% { transform: perspective(700px) rotateY(7deg) rotateX(-2deg) scale(1.16); } }
+.vf { position: absolute; inset: 0; z-index: 3; pointer-events: none; font-family: var(--sans); }
+.vf .c { position: absolute; width: 14%; height: 14%; border: 0 solid rgba(255, 255, 255, .85); }
+.vf .tl { left: 7%; top: 7%; border-top-width: 1.5px; border-left-width: 1.5px; }
+.vf .tr { right: 7%; top: 7%; border-top-width: 1.5px; border-right-width: 1.5px; }
+.vf .bl { left: 7%; bottom: 7%; border-bottom-width: 1.5px; border-left-width: 1.5px; }
+.vf .br { right: 7%; bottom: 7%; border-bottom-width: 1.5px; border-right-width: 1.5px; }
+.vf .rec { position: absolute; left: 11%; top: 10%; display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 600; letter-spacing: .14em; color: #fff; }
+.vf .rec i { width: 7px; height: 7px; border-radius: 50%; background: #ff3b30; box-shadow: 0 0 8px #ff3b30; animation: recblink 1.2s steps(1) infinite; }
+@keyframes recblink { 50% { opacity: .15; } }
+.vf .fmt { position: absolute; right: 11%; top: 10%; font-size: 10px; font-weight: 600; letter-spacing: .1em; color: #fff; }
+.vf .af { position: absolute; left: 50%; top: 52%; width: 22%; aspect-ratio: 1; margin: -11% 0 0 -11%; border: 1.5px solid rgba(255, 255, 255, .9); border-radius: 4px; animation: autofocus 4.5s var(--ease) infinite; }
+@keyframes autofocus { 0% { transform: scale(1.6); opacity: 0; } 18% { transform: scale(1.6); opacity: 1; } 34% { transform: scale(1); border-color: rgba(255, 255, 255, .9); } 44%, 70% { transform: scale(1); border-color: #7dff9a; box-shadow: 0 0 14px rgba(125, 255, 154, .5); opacity: 1; } 84%, 100% { opacity: 0; } }
+.vf .flash { position: absolute; inset: 0; background: #fff; opacity: 0; animation: shutter 4.5s linear infinite; }
+@keyframes shutter { 0%, 71% { opacity: 0; } 72% { opacity: .55; } 78%, 100% { opacity: 0; } }
+
+/* ---------- NFC: celular vai até a placa ---------- */
+.sq-tap { background: radial-gradient(70% 60% at 40% 60%, rgba(66, 133, 244, .2), transparent 70%), linear-gradient(170deg, #161a22, #0b0c0f); }
+.sq-tap .tap-plate { position: absolute; left: 8%; bottom: 8%; width: 62%; height: auto; object-fit: contain; animation: none; transform: perspective(500px) rotateY(14deg) rotateX(8deg); filter: drop-shadow(0 14px 24px rgba(0, 0, 0, .7)); }
+.tap-phone { position: absolute; left: 50%; top: 4%; width: 30%; aspect-ratio: 9 / 18.5; border-radius: 14px; padding: 4%; background: linear-gradient(160deg, #3a3d44, #111216); box-shadow: 0 18px 30px -8px rgba(0, 0, 0, .9), inset 0 0 0 1px rgba(255, 255, 255, .12); animation: tapmove 5s var(--ease) infinite; z-index: 2; }
+.tp-screen { width: 100%; height: 100%; border-radius: 10px; background: #0b0c0f; display: grid; align-content: center; justify-items: center; gap: 6%; animation: screenon 5s var(--ease) infinite; overflow: hidden; }
+.tp-g { width: 46%; aspect-ratio: 1; border-radius: 50%; background: #fff; display: grid; place-items: center; font-family: var(--sans); font-weight: 700; font-size: clamp(10px, 1vw, 15px); }
+.tp-stars { color: #fbbc05; font-size: clamp(6px, .62vw, 9.5px); letter-spacing: 1px; }
+.tp-btn { padding: 3px 7px; border-radius: 999px; background: #4285f4; color: #fff; font-size: clamp(5.5px, .55vw, 8.5px); font-weight: 600; }
+.tp-screen > * { opacity: 0; animation: screenitems 5s var(--ease) infinite; }
+@keyframes tapmove { 0%, 8% { transform: translate(55%, -10%) rotate(14deg); } 34%, 66% { transform: translate(-58%, 62%) rotate(-6deg); } 92%, 100% { transform: translate(55%, -10%) rotate(14deg); } }
+@keyframes screenon { 0%, 36% { background: #0b0c0f; } 44%, 86% { background: #f4f6fb; } 94%, 100% { background: #0b0c0f; } }
+@keyframes screenitems { 0%, 40% { opacity: 0; transform: translateY(6px); } 48%, 84% { opacity: 1; transform: none; } 92%, 100% { opacity: 0; } }
+.tap-wave { position: absolute; left: 30%; top: 58%; width: 26%; aspect-ratio: 1; margin: -13% 0 0 -13%; border-radius: 50%; border: 2px solid rgba(66, 133, 244, .9); opacity: 0; animation: tapwave 5s ease-out infinite; z-index: 1; }
+.tap-wave.w2 { animation-delay: .35s; }
+@keyframes tapwave { 0%, 32% { transform: scale(.3); opacity: 0; } 36% { opacity: 1; } 60% { transform: scale(2.2); opacity: 0; } 100% { opacity: 0; } }
+
+/* ---------- QR: placa flutuando e leitura passando ---------- */
+.fx-scan img { animation: platefloat 6s ease-in-out infinite !important; }
+@keyframes platefloat { 0%, 100% { transform: perspective(700px) rotateX(4deg) rotateY(-5deg) translateY(0) scale(.94); } 50% { transform: perspective(700px) rotateX(-3deg) rotateY(5deg) translateY(-6px) scale(.96); } }
+.fx-scan .scan { position: absolute; left: 8%; right: 8%; top: 10%; height: 2px; z-index: 3; background: linear-gradient(90deg, transparent, #4fc3ff, transparent); box-shadow: 0 0 14px 3px rgba(79, 195, 255, .6); animation: scanline 3.2s ease-in-out infinite; }
+@keyframes scanline { 0%, 100% { top: 12%; opacity: 0; } 10% { opacity: 1; } 50% { top: 86%; opacity: 1; } 60% { opacity: 0; } }
+
+/* ---------- toque na tela (perfil e bio-site) ---------- */
+.fxl { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.touch { position: absolute; width: 16%; aspect-ratio: 1; margin: -8% 0 0 -8%; border-radius: 50%; background: radial-gradient(circle, rgba(255, 255, 255, .9) 0 18%, rgba(255, 255, 255, .25) 40%, transparent 70%); opacity: 0; }
+.fx-touch img, .fx-touch .fxl { animation: pushin 10s ease-in-out infinite alternate; transform-origin: 70% 60%; }
+@keyframes pushin { 0% { transform: scale(1.04); } 100% { transform: scale(1.18); } }
+.fx-touch .touch { left: 85%; top: 62%; animation: tap 3.6s ease-out infinite; }
+@keyframes tap { 0%, 40% { opacity: 0; transform: scale(.4); } 46% { opacity: 1; transform: scale(.8); } 70% { opacity: 0; transform: scale(1.8); } 100% { opacity: 0; } }
+.fx-bio img, .fx-bio .fxl { animation: biosway 8s ease-in-out infinite; transform-origin: 50% 50%; }
+@keyframes biosway { 0%, 100% { transform: perspective(800px) rotateY(-8deg) rotateZ(-1deg) scale(1.06); } 50% { transform: perspective(800px) rotateY(8deg) rotateZ(1deg) scale(1.1); } }
+.fx-bio .touch { left: 50%; top: 53.6%; width: 13%; margin: -6.5% 0 0 -6.5%; animation: biotap 8s ease-out infinite; }
+@keyframes biotap {
+  0% { top: 53.6%; opacity: 0; transform: scale(.4); } 6% { opacity: 1; transform: scale(.9); } 14% { opacity: 0; transform: scale(1.6); }
+  25% { top: 59.5%; opacity: 0; transform: scale(.4); } 31% { opacity: 1; transform: scale(.9); } 39% { opacity: 0; transform: scale(1.6); }
+  50% { top: 65.8%; opacity: 0; transform: scale(.4); } 56% { opacity: 1; transform: scale(.9); } 64% { opacity: 0; transform: scale(1.6); }
+  75% { top: 71.9%; opacity: 0; transform: scale(.4); } 81% { opacity: 1; transform: scale(.9); } 89% { opacity: 0; transform: scale(1.6); } 100% { top: 71.9%; opacity: 0; }
+}
+
+/* ---------- pagamento: aprovação aparecendo ---------- */
+.fx-pay img { animation: drift 14s ease-in-out infinite alternate; }
+.pay-toast { position: absolute; left: 50%; top: 10%; z-index: 3; display: flex; align-items: center; gap: 7px; padding: 7px 12px 7px 7px; border-radius: 999px; background: rgba(250, 250, 248, .95); color: #15120c; font-size: 11px; font-weight: 600; white-space: nowrap; box-shadow: 0 10px 24px -8px rgba(0, 0, 0, .6); transform: translate(-50%, -140%); opacity: 0; animation: toast 5s var(--ease) infinite; }
+.pay-toast i { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; background: #34a853; color: #fff; font-style: normal; font-size: 11px; }
+@keyframes toast { 0%, 20% { transform: translate(-50%, -140%); opacity: 0; } 30%, 72% { transform: translate(-50%, 0); opacity: 1; } 82%, 100% { transform: translate(-50%, -140%); opacity: 0; } }
+
+/* ---------- identidade: ondas NFC saindo do cartão ---------- */
+.bc-nfc::before, .bc-nfc::after { content: ""; position: absolute; left: 50%; top: 50%; width: 16px; height: 16px; margin: -8px; border-radius: 50%; border: 1px solid var(--gold-2); opacity: 0; animation: bcwave 2.8s ease-out infinite; }
+.bc-nfc::after { animation-delay: .9s; }
+@keyframes bcwave { 0% { transform: scale(.6); opacity: .9; } 100% { transform: scale(2.6); opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) { .tap-phone { transform: translate(-58%, 62%); } .tp-screen { background: #f4f6fb; } .tp-screen > * { opacity: 1; } }
+@media (min-width: 1181px) { .squares-7 .sq { min-width: 0; flex-basis: calc((100% - 6 * 14px) / 7 - 1px); } }
+.st-label { font-size: 9px; letter-spacing: .1em; text-align: center; padding: 0 6px; }
+.pay-toast { font-size: 9.5px; padding: 5px 9px 5px 5px; gap: 5px; max-width: 92%; }
+.pay-toast i { width: 15px; height: 15px; font-size: 9px; }
