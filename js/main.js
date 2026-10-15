@@ -113,26 +113,22 @@ if (words) {
 const wordEls = words ? $$('.w', words) : [];
 
 /* ------------------------------------------------------------------ */
-/* Plano Premium: layers                                               */
+/* Plano Premium: "Saiba mais" — opens on click and, item by item,     */
+/* as the scroll passes each one (stays open to avoid layout jumps)    */
 /* ------------------------------------------------------------------ */
-const layers = $$('.layer');
-const panels = $$('.lp');
-function showLayer(i, { scroll = false } = {}) {
-  layers.forEach((b, k) => b.setAttribute('aria-selected', String(k === i)));
-  panels.forEach((p, k) => {
-    const on = k === i;
-    p.hidden = !on;
-    p.classList.remove('play');
-    if (on) {
-      $$('li, .lp-note', p).forEach((li, n) => li.style.setProperty('--i', n));
-      void p.offsetWidth; // restart the staggered entrance
-      p.classList.add('play');
-    }
-  });
-  if (scroll && mobile) scrollToEl($('#layer-panels'), -90);
+function setAcc(item, open) {
+  item.classList.toggle('open', open);
+  $('.acc-head', item).setAttribute('aria-expanded', String(open));
+  $('.more span', item).textContent = open ? 'Fechar' : 'Saiba mais';
+  if (open) {
+    $$('li, .lp-note', item).forEach((li, n) => li.style.setProperty('--i', n));
+    item.classList.remove('play'); void item.offsetWidth; item.classList.add('play');
+  }
 }
-layers.forEach((b, i) => b.addEventListener('click', () => showLayer(i, { scroll: true })));
-onView($('.layers'), () => showLayer(0), { threshold: 0.3 });
+$$('[data-acc]').forEach((item) => {
+  $('.acc-head', item).addEventListener('click', () => setAcc(item, !item.classList.contains('open')));
+  onView(item, () => { if (!item.classList.contains('open')) setAcc(item, true); }, { rootMargin: '0px 0px -42% 0px', threshold: 0 });
+});
 
 /* ------------------------------------------------------------------ */
 /* Report: 6 → 12 months                                               */
@@ -180,36 +176,29 @@ $$('[data-period]').forEach((b) => b.addEventListener('click', () => { clearTime
 onView(dash, () => { setPeriod(6); autoTimer = setTimeout(() => setPeriod(12), 3200); }, { threshold: 0.45 });
 
 /* ------------------------------------------------------------------ */
-/* Solutions: card fans                                                */
+/* Solutions: 3D squares — videos load and play only while visible     */
 /* ------------------------------------------------------------------ */
-const decks = $$('[data-deck]');
-function layoutDeck(sol) {
-  const deck = $('.deck', sol);
-  const cards = $$('.dc', deck);
-  const n = cards.length;
-  if (mobile) return;
-  // cards share the row: when open they sit side by side without covering each other
-  const cw = Math.max(150, Math.min(210, (deck.clientWidth - (n - 1) * 14) / n));
-  deck.style.setProperty('--cw', `${cw.toFixed(1)}px`);
-  deck.classList.toggle('compact', cw < 172);
-  const step = Math.min(cw + 14, (deck.clientWidth - cw) / Math.max(1, n - 1));
-  deck.style.setProperty('--step', `${step.toFixed(1)}px`);
-  deck.style.setProperty('--mid', ((n - 1) / 2).toFixed(2));
-  cards.forEach((c, i) => c.style.setProperty('--i', i));
-}
-function openDeck(sol) {
-  sol.classList.add('open');
-  $$('video', sol).forEach((v) => { if (!v.getAttribute('src')) v.src = v.dataset.src; v.play().catch(() => {}); });
-}
-decks.forEach((sol) => {
-  layoutDeck(sol);
-  if (!mobile) sol.addEventListener('mouseenter', () => openDeck(sol));
-  onView(sol, openDeck, { threshold: mobile ? 0.2 : 0.5 });
+$$('.sq video').forEach((v) => {
   new IntersectionObserver(([e]) => {
-    $$('video', sol).forEach((v) => { if (!e.isIntersecting) v.pause(); else if (sol.classList.contains('open')) v.play().catch(() => {}); });
-  }).observe(sol);
+    if (e.isIntersecting) { if (!v.getAttribute('src')) v.src = v.dataset.src; v.play().catch(() => {}); } else v.pause();
+  }, { threshold: 0.2 }).observe(v);
 });
-addEventListener('resize', () => decks.forEach(layoutDeck));
+$$('.squares').forEach((g) => $$('.sq', g).forEach((s, i) => s.style.setProperty('--d', `${(i * 0.08).toFixed(2)}s`)));
+
+/* 3D tilt + light following the pointer (desktop) */
+if (!mobile) {
+  $$('[data-tilt]').forEach((el) => {
+    el.addEventListener('pointermove', (e) => {
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      el.style.setProperty('--ry', `${((x - 0.5) * 16).toFixed(2)}deg`);
+      el.style.setProperty('--rx', `${((0.5 - y) * 14).toFixed(2)}deg`);
+      el.style.setProperty('--mx', `${(x * 100).toFixed(1)}%`);
+      el.style.setProperty('--my', `${(y * 100).toFixed(1)}%`);
+    });
+    el.addEventListener('pointerleave', () => { el.style.setProperty('--rx', '0deg'); el.style.setProperty('--ry', '0deg'); });
+  });
+}
 
 /* ------------------------------------------------------------------ */
 /* História / Biografia: click, hover or scroll                        */
@@ -231,6 +220,9 @@ $$('[data-reveal]').forEach((btn) => {
 /* ------------------------------------------------------------------ */
 const video = $('#castello-video');
 const phone = $('#phone');
+const castello = $('#castello');
+const castelloCopy = $('.castello-copy');
+let luxK = 0.5;
 new IntersectionObserver(([e]) => {
   if (e.isIntersecting) { if (!video.getAttribute('src')) video.src = 'assets/video/castello.mp4'; video.play().catch(() => {}); } else video.pause();
 }, { threshold: 0.25 }).observe(video);
@@ -269,11 +261,15 @@ function tick() {
     const n = Math.round(k * wordEls.length);
     wordEls.forEach((w, i) => w.classList.toggle('on', i < n));
   }
-  const pr = phone.getBoundingClientRect();
-  if (pr.top < vh && pr.bottom > 0) {
-    const k = clamp((vh - pr.top) / (vh + pr.height));
-    phone.style.setProperty('--py', `${(-18 + k * 30).toFixed(2)}deg`);
-    phone.style.setProperty('--px', `${(6 - k * 8).toFixed(2)}deg`);
+  const cr = castello.getBoundingClientRect();
+  if (cr.top < vh && cr.bottom > 0) {
+    // slow, weighted parallax: the phone floats against the copy as the visitor scrolls
+    const k = clamp((vh - cr.top) / (vh + cr.height));
+    luxK += (k - luxK) * 0.06;
+    phone.style.setProperty('--py', `${(-16 + luxK * 26).toFixed(2)}deg`);
+    phone.style.setProperty('--px', `${(5 - luxK * 7).toFixed(2)}deg`);
+    phone.style.setProperty('--ty', `${((0.5 - luxK) * 120).toFixed(1)}px`);
+    castelloCopy.style.setProperty('--ty', `${((0.5 - luxK) * -50).toFixed(1)}px`);
   }
 }
 requestAnimationFrame(tick);

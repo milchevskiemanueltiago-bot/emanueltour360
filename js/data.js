@@ -23,9 +23,9 @@ export const CASES = [
     maps: 'https://www.google.com/maps/place/P%C3%ADer+Oporto/@-27.1436484,-48.5852336,3a,75y,19.42h,121.37t/data=!3m8!1e1!3m6!1sCIABIhBsh_DLskrtRLeBpPYv9NKD!2e10!3e11!7i5888!8i2944!4m9!3m8!1s0x94d8af001425b9cb:0x264039fa5f072267!8m2!3d-27.1441229!4d-48.5856612!10e5!16s%2Fg%2F11yr2c7jvq',
   },
   {
-    key: 'bluesea', name: 'Hotel Blue Sea', place: 'Itapema', segment: 'Hotel',
-    lat: -27.0663841, lon: -48.5949144, heading: 173, label: [110, -42], short: 'Hotel Blue Sea',
-    maps: 'https://www.google.com/maps/place/Blue+Sea+Hotel+-+Itapema+SC/@-27.0663257,-48.5946123,3a,90y,218.81h,108.72t/data=!3m7!1e1!3m5!1sCIABIhAQt0QcXGXzH-PAmGZeZ7EO!2e10!7i8400!8i4200!4m12!3m11!1s0x94d8b0e09d9b966b:0x360d8c01a517ec30!5m2!4m1!1i2!8m2!3d-27.0663841!4d-48.5949144!10e5!16s%2Fg%2F11f5dc3cjw',
+    key: 'castello', name: 'Castello Dal Pozzo', place: 'Oleggio Castello · Itália', segment: 'Resort e restaurante', logo: 'logo-castello',
+    lat: 45.7518584, lon: 8.5312244, heading: 196, label: [20, -20], abroad: true,
+    maps: 'https://www.google.com/maps/place/Castello+Dal+Pozzo/@45.7521437,8.5313718,3a,75y,149.08h,89.24t/data=!3m8!1e1!3m6!1sCIABIhBZ-GlfQrNEo_5YQE0Dz7_m!2e10!3e11!7i6530!8i3265!4m12!3m11!1s0x478671f64a13d927:0x9da3b7c69ee36550!5m2!4m1!1i2!8m2!3d45.7518584!4d8.5312244!10e5!16s%2Fg%2F11hdb9dw2_',
   },
   {
     key: 'caixadaco', name: 'Pousada Caixa D’Aço Exclusive', place: 'Praia do Caixa D’Aço · Porto Belo', segment: 'Hospedagem',
@@ -43,9 +43,9 @@ export const CASES = [
     maps: 'https://www.google.com/maps/place/Showroom+All+Wert/@-27.1672646,-48.6258294,3a,75y,131.41h,88.24t/data=!3m7!1e1!3m5!1sCIABIhBhL3l4C5gM1yKHdDGXiI2o!2e10!7i6530!8i3265!4m9!3m8!1s0x94d8af0048108669:0xf58829259515d3d1!8m2!3d-27.1675906!4d-48.6260365!10e5!16s%2Fg%2F11x25frrlr',
   },
   {
-    key: 'castello', name: 'Castello Dal Pozzo', place: 'Oleggio Castello · Itália', segment: 'Resort e restaurante', logo: 'logo-castello',
-    lat: 45.7518584, lon: 8.5312244, heading: 196, label: [20, -20], abroad: true,
-    maps: 'https://www.google.com/maps/place/Castello+Dal+Pozzo/@45.7521437,8.5313718,3a,75y,149.08h,89.24t/data=!3m8!1e1!3m6!1sCIABIhBZ-GlfQrNEo_5YQE0Dz7_m!2e10!3e11!7i6530!8i3265!4m12!3m11!1s0x478671f64a13d927:0x9da3b7c69ee36550!5m2!4m1!1i2!8m2!3d45.7518584!4d8.5312244!10e5!16s%2Fg%2F11hdb9dw2_',
+    key: 'bluesea', name: 'Hotel Blue Sea', place: 'Itapema', segment: 'Hotel',
+    lat: -27.0663841, lon: -48.5949144, heading: 173, label: [110, -42], short: 'Hotel Blue Sea',
+    maps: 'https://www.google.com/maps/place/Blue+Sea+Hotel+-+Itapema+SC/@-27.0663257,-48.5946123,3a,90y,218.81h,108.72t/data=!3m7!1e1!3m5!1sCIABIhAQt0QcXGXzH-PAmGZeZ7EO!2e10!7i8400!8i4200!4m12!3m11!1s0x94d8b0e09d9b966b:0x360d8c01a517ec30!5m2!4m1!1i2!8m2!3d-27.0663841!4d-48.5949144!10e5!16s%2Fg%2F11f5dc3cjw',
   },
 ];
 export const CASE = Object.fromEntries(CASES.map((c) => [c.key, c]));
