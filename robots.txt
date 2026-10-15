@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /identidade.html
+
+Sitemap: https://milchevskiemanueltiago-bot.github.io/emanueltour360/sitemap.xml
