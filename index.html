@@ -54,7 +54,8 @@
     <symbol id="i-close" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></symbol>
     <symbol id="i-left" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="m14.5 6-6 6 6 6"/></symbol>
     <symbol id="i-right" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="m9.5 6 6 6-6 6"/></symbol>
-    <symbol id="i-car" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 16.5v-3.2l1.8-4.6A2 2 0 0 1 7.2 7.5h9.6a2 2 0 0 1 1.9 1.2l1.8 4.6v3.2a1 1 0 0 1-1 1h-1.3M5.8 17.5H4.5a1 1 0 0 1-1-1"/><path d="M3.8 13h16.4M8.6 17.5h6.8"/><circle cx="7.2" cy="17.5" r="1.7"/><circle cx="16.8" cy="17.5" r="1.7"/></g></symbol>
+    <symbol id="i-car" viewBox="0 0 32 24"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 15.8c0-1.4.7-2.2 2.1-2.6l5.2-1.4 4.6-3.3c.9-.6 1.9-.9 3-.9h3.3c1.3 0 2.5.5 3.4 1.4l2.9 2.8 2.4.6c1 .3 1.6 1.1 1.6 2.1v1.6c0 .6-.4 1-1 1h-1.3"/><path d="M6.8 17.1H3.5a1 1 0 0 1-1-1.3M10.9 17.1h11.4"/><path d="m10.6 11.6 4.6-.4 7.5.4"/><circle cx="8.8" cy="17.1" r="2.3"/><circle cx="24.4" cy="17.1" r="2.3"/></g></symbol>
+    <symbol id="i-star3d" viewBox="0 0 24 24"><defs><linearGradient id="sg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3c8"/><stop offset=".45" stop-color="#e9c46a"/><stop offset="1" stop-color="#9c6f1c"/></linearGradient><linearGradient id="sg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffbe9" stop-opacity=".95"/><stop offset="1" stop-color="#fffbe9" stop-opacity="0"/></linearGradient></defs><path d="m12 1.8 3.1 6.4 7 1-5.1 4.9 1.2 7L12 17.8l-6.2 3.3 1.2-7L1.9 9.2l7-1Z" fill="url(#sg1)" stroke="#7a5414" stroke-width=".4" stroke-linejoin="round"/><path d="m12 3.4 2.5 5.2L12 12 9.5 8.6Z" fill="url(#sg2)"/></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M12 5v14M5 12h14"/></symbol>
   </svg>
 
@@ -312,7 +313,7 @@
           </header>
           <div class="squares">
             <div class="sq reveal" data-tilt><div class="sq-media"><img src="assets/stock/seo-perfil.webp" alt="" loading="lazy"></div><div class="sq-text"><h4>Perfil da Empresa</h4><p>Criação ou otimização completa, com categorias e dados estratégicos.</p></div></div>
-            <div class="sq reveal" data-tilt><div class="sq-media"><img src="assets/stock/seo-busca.webp" alt="" loading="lazy"></div><div class="sq-text"><h4>Palavras-chave locais</h4><p>Termos do seu segmento, cidade e região aplicados ao perfil.</p></div></div>
+            <div class="sq reveal" data-tilt><div class="sq-media sq-kw" aria-hidden="true"><div class="kw-bar"><svg class="i"><use href="#i-search"/></svg><span class="kw-type" data-type="hotel em Itapema|restaurante em Porto Belo|academia premium|melhor pousada no litoral|empreendimento frente mar"></span><i class="kw-caret"></i></div><div class="kw-chips"><span>Itapema</span><span>perto de mim</span><span>5★</span><span>aberto agora</span></div><svg class="kw-pin"><use href="#i-pin"/></svg></div><div class="sq-text"><h4>Palavras-chave locais</h4><p>Termos do seu segmento, cidade e região aplicados ao perfil.</p></div></div>
             <div class="sq reveal" data-tilt><div class="sq-media"><img src="assets/stock/seo-mapa.webp" alt="" loading="lazy"></div><div class="sq-text"><h4>Geolocalização</h4><p>Ajustes de localização para ser encontrado no Google Maps.</p></div></div>
             <div class="sq reveal" data-tilt><div class="sq-media"><img src="assets/stock/seo-360.webp" alt="" loading="lazy"></div><div class="sq-text"><h4>Tour 360° no Google</h4><p>Ambientes internos e externos integrados ao Maps.</p></div></div>
             <div class="sq reveal" data-tilt><div class="sq-media"><img src="assets/stock/seo-fotos.webp" alt="" loading="lazy"></div><div class="sq-text"><h4>Fotos profissionais</h4><p>Imagens que valorizam a estrutura e os diferenciais.</p></div></div>
@@ -334,13 +335,13 @@
               </div>
             </div>
             <div class="sq reveal" data-tilt>
-              <div class="sq-media sq-art"><svg class="sq-icon"><use href="#i-car"/></svg><span class="sq-ref">Referência</span></div>
+              <div class="sq-media sq-art"><svg class="sq-icon sq-icon-wide"><use href="#i-car"/></svg><span class="sq-ref">Referência</span></div>
               <div class="sq-text"><h4>Loja de automóveis</h4><p>Showroom completo para o cliente escolher o carro de onde estiver.</p>
                 <div class="sq-links"><a href="https://mgtour360.com.br/tour/bmw/barigui/maringa/" target="_blank" rel="noopener">BMW Barigui · Maringá <svg class="i"><use href="#i-arrow"/></svg></a></div>
               </div>
             </div>
             <div class="sq reveal" data-tilt>
-              <div class="sq-media sq-art"><svg class="sq-icon"><use href="#i-spark"/></svg></div>
+              <div class="sq-media sq-art"><svg class="sq-icon"><use href="#i-link"/></svg></div>
               <div class="sq-text"><h4>A identidade da sua marca</h4><p>Link próprio para landing pages, sites e Perfil no Google.</p></div>
             </div>
           </div>
@@ -370,9 +371,9 @@
           </header>
           <div class="squares squares-7">
             <div class="sq reveal" data-tilt><div class="sq-media"><img src="assets/stock/nfc-nfc.webp" alt="" loading="lazy"><span class="sq-chip"><svg class="i"><use href="#i-nfc"/></svg></span></div><div class="sq-text"><h4>Aproximação NFC</h4><p>O cliente encosta o celular no cartão e a avaliação abre na hora.</p></div></div>
-            <div class="sq reveal" data-tilt><div class="sq-media"><img src="assets/stock/nfc-qr.webp" alt="" loading="lazy"><span class="sq-chip"><svg class="i"><use href="#i-qr"/></svg></span></div><div class="sq-text"><h4>QR Code</h4><p>Alternativa para celulares sem leitura por aproximação.</p></div></div>
+            <div class="sq reveal" data-tilt><div class="sq-media"><img src="assets/stock/nfc-qr.webp" alt="Placa de avaliação no Google com NFC e QR Code" loading="lazy"></div><div class="sq-text"><h4>QR Code</h4><p>Alternativa para celulares sem leitura por aproximação.</p></div></div>
             <div class="sq reveal" data-tilt><div class="sq-media"><img src="assets/stock/nfc-perfil.webp" alt="" loading="lazy"></div><div class="sq-text"><h4>Direto no seu perfil</h4><p>Chip programado com o link do seu Perfil da Empresa no Google.</p></div></div>
-            <div class="sq reveal" data-tilt><div class="sq-media"><img src="assets/stock/nfc-avaliacoes.webp" alt="" loading="lazy"></div><div class="sq-text"><h4>Mais avaliações</h4><p>Sem digitar, sem procurar: avaliação logo após o atendimento.</p></div></div>
+            <div class="sq reveal" data-tilt><div class="sq-media sq-stars" aria-hidden="true"><b class="st-score">5,0</b><div class="st-row"><svg viewBox="0 0 24 24"><use href="#i-star3d"/></svg><svg viewBox="0 0 24 24"><use href="#i-star3d"/></svg><svg viewBox="0 0 24 24"><use href="#i-star3d"/></svg><svg viewBox="0 0 24 24"><use href="#i-star3d"/></svg><svg viewBox="0 0 24 24"><use href="#i-star3d"/></svg></div><span class="st-label">avaliações no Google</span></div><div class="sq-text"><h4>Mais avaliações</h4><p>Sem digitar, sem procurar: avaliação logo após o atendimento.</p></div></div>
             <div class="sq reveal" data-tilt><div class="sq-media sq-bc"><div class="bc"><svg class="bc-mark"><use href="#et-mark"/></svg><span class="bc-name">Emanuel</span><span class="bc-sub">Tour360</span><i class="bc-nfc"><svg class="i"><use href="#i-nfc"/></svg></i></div></div><div class="sq-text"><h4>Sua identidade</h4><p>Logo e identidade da sua empresa no cartão e no bio-site.</p></div></div>
             <div class="sq reveal" data-tilt><div class="sq-media"><img src="assets/stock/nfc-pagamento.webp" alt="" loading="lazy"><span class="sq-badge">Sem mensalidade</span></div><div class="sq-text"><h4>Pagamento único</h4><p>Você paga uma vez e o cartão e o bio-site são seus.</p></div></div>
             <a class="sq reveal" data-tilt href="https://multlinks.com/estrelaazulpescados" target="_blank" rel="noopener"><div class="sq-media"><img src="assets/stock/nfc-biosite.webp" alt="Modelo de bio-site Estrela Azul Pescados" loading="lazy"><span class="sq-badge">Modelo ao vivo</span></div><div class="sq-text"><h4>Bio-site</h4><p>Veja o modelo da Estrela Azul Pescados <svg class="i"><use href="#i-arrow"/></svg></p></div></a>

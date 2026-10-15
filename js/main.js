@@ -200,6 +200,42 @@ if (!mobile) {
   });
 }
 
+/* "Palavras-chave" art: a search being typed, keyword after keyword */
+$$('[data-type]').forEach((el) => {
+  const words = el.dataset.type.split('|');
+  let w = 0, i = 0, dir = 1, running = false;
+  const step = () => {
+    const word = words[w];
+    i += dir;
+    el.textContent = word.slice(0, i);
+    let wait = dir > 0 ? 70 + Math.random() * 60 : 28;
+    if (dir > 0 && i >= word.length) { dir = -1; wait = 1500; }
+    else if (dir < 0 && i <= 0) { dir = 1; w = (w + 1) % words.length; wait = 350; }
+    setTimeout(step, reduced ? 2000 : wait);
+  };
+  onView(el, () => { if (!running) { running = true; step(); } }, { threshold: 0.2 });
+});
+
+/* Biografia: text lights up word by word as the visitor scrolls, so it reads in parts */
+const bioWords = [];
+$$('#bio p, #bio h3').forEach((p) => {
+  const walk = (node) => {
+    [...node.childNodes].forEach((n) => {
+      if (n.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach((t) => {
+          if (!t) return;
+          if (/^\s+$/.test(t)) { frag.appendChild(document.createTextNode(t)); return; }
+          const s = document.createElement('span'); s.className = 'bw'; s.textContent = t; frag.appendChild(s); bioWords.push(s);
+        });
+        n.replaceWith(frag);
+      } else if (n.nodeType === 1) walk(n);
+    });
+  };
+  walk(p);
+});
+const bioEl = document.getElementById('bio');
+
 /* ------------------------------------------------------------------ */
 /* História / Biografia: click, hover or scroll                        */
 /* ------------------------------------------------------------------ */
@@ -260,6 +296,12 @@ function tick() {
     const k = clamp((vh * 0.85 - r.top) / (r.height + vh * 0.35));
     const n = Math.round(k * wordEls.length);
     wordEls.forEach((w, i) => w.classList.toggle('on', i < n));
+  }
+  if (bioWords.length && bioEl.classList.contains('open')) {
+    const r = bioEl.getBoundingClientRect();
+    const k = clamp((vh * 0.82 - r.top) / (r.height + vh * 0.1));
+    const n = Math.round(k * bioWords.length);
+    bioWords.forEach((w, i) => w.classList.toggle('on', i < n));
   }
   const cr = castello.getBoundingClientRect();
   if (cr.top < vh && cr.bottom > 0) {
