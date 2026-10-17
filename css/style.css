@@ -846,3 +846,16 @@ html.modal-open { overflow: hidden; }
 .sobre-center .reveal-panel p { margin-inline: auto; }
 .bio-statement { margin: 26px auto 0; max-width: 30ch; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: clamp(24px, 2.4vw, 34px); line-height: 1.15; color: var(--gold-2); }
 .bio-statement em { font-style: italic; color: var(--gold-2); }
+
+/* Sobre: coluna central — texto, foto e frase embaixo da foto */
+.sobre-stack { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.sobre-intro { max-width: 760px; }
+.sobre-intro .eyebrow { justify-content: center; }
+.sobre-stack blockquote { margin: 0 auto; max-width: 20ch; }
+.sobre-stack .sobre-sign { margin: 22px auto 0; }
+.sobre-stack .photo { width: min(100%, 400px); margin-top: clamp(36px, 6vh, 64px); }
+.sobre-stack .bio-statement { margin-top: 30px; }
+.sobre-stack .ctas { justify-content: center; margin-top: 24px; }
+.sobre-stack .reveal-panel { width: 100%; max-width: 760px; padding-left: 0; border-left: 0; border-top: 1px solid rgba(212, 180, 122, .45); }
+.sobre-stack .reveal-panel.open { padding-top: 24px; }
+.sobre-stack .reveal-panel p { margin-inline: auto; }
