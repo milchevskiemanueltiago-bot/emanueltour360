@@ -804,3 +804,45 @@ html.modal-open { overflow: hidden; }
 .nfc-wave { position: absolute; left: 50%; top: 37%; z-index: 2; width: 22%; aspect-ratio: 1; margin: -11% 0 0 -11%; border-radius: 50%; border: 2px solid rgba(120, 200, 255, .95); box-shadow: 0 0 14px rgba(120, 200, 255, .6); opacity: 0; animation: nfcwave 4.8s ease-out infinite; pointer-events: none; }
 .nfc-wave.w2 { animation-delay: .3s; }
 @keyframes nfcwave { 0%, 36% { transform: scale(.3); opacity: 0; } 40% { opacity: 1; } 62% { transform: scale(2.4); opacity: 0; } 100% { opacity: 0; } }
+
+/* =====================================================================
+   v7 — EMTour360, Página Oficial, zoom automático, Sobre centralizado
+   ===================================================================== */
+
+/* logo EMTour360 */
+.brand-em { font-size: 18px; font-weight: 600; letter-spacing: -.01em; }
+.brand-em span { color: var(--gold); font-weight: 500; }
+
+/* cases: imagem clicável com zoom automático + dois botões */
+.case-img { width: 100%; padding: 0; border: 0; background: none; cursor: pointer; }
+.case-img img { animation: drift 18s ease-in-out infinite alternate; animation-delay: calc(var(--d, 0s) * -20); }
+.case-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 12px; }
+.case-cta { margin-top: 0; padding: 0; border: 0; background: none; font: inherit; font-size: 13.5px; font-weight: 500; color: var(--gold-2); cursor: pointer; }
+.case:hover .case-cta .i { transform: none; }
+.case-cta:hover .i { transform: translate(3px, -3px); }
+.case-site { display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(242, 239, 232, .22); font-size: 12.5px; font-weight: 500; color: var(--text); transition: border-color .3s, color .3s; }
+.case-site .i { width: 14px; height: 14px; }
+.case-site:hover { border-color: var(--gold); color: var(--gold-2); }
+@media (max-width: 560px) {
+  .case-actions { flex-direction: column; align-items: flex-start; gap: 8px; margin-top: 8px; }
+  .case-cta { font-size: 12px; }
+  .case-site { font-size: 11px; padding: 5px 10px; }
+}
+
+/* zoom leve automático nas fotos dos quadros (inclui a câmera do Avulso) */
+.sq-media img { animation-duration: 14s; }
+
+/* Bio-site e Cartão NFC: 4 em cima e 2 centralizados embaixo */
+@media (min-width: 761px) {
+  .squares-6 .sq { flex: 0 1 calc((100% - 3 * 14px) / 4); min-width: 0; max-width: 290px; }
+}
+
+/* Sobre: texto centralizado */
+.sobre-center > div:last-child { text-align: center; }
+.sobre-center .eyebrow, .sobre-center .ctas { justify-content: center; }
+.sobre-center blockquote { margin-inline: auto; max-width: 20ch; }
+.sobre-center .sobre-sign { margin-inline: auto; }
+.sobre-center .reveal-panel { padding-left: 0; border-left: 0; border-top: 1px solid rgba(212, 180, 122, .45); padding-top: 22px; }
+.sobre-center .reveal-panel p { margin-inline: auto; }
+.bio-statement { margin: 26px auto 0; max-width: 30ch; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: clamp(24px, 2.4vw, 34px); line-height: 1.15; color: var(--gold-2); }
+.bio-statement em { font-style: italic; color: var(--gold-2); }

@@ -7,7 +7,7 @@ import { CASES, CASE, mobile, reduced, panoUrl } from './data.js';
 /* ------------------------------------------------------------------ */
 const PLACES = {
   it: { lat: 45.7519, lon: 8.5312 },          // Castello Dal Pozzo
-  rj: { lat: -22.906, lon: -43.173 },
+  sc: { lat: -27.3, lon: -49.7 },              // Santa Catarina
   lagom: { lat: CASE.lagom.lat, lon: CASE.lagom.lon },
 };
 const VIEW_START = { lat: 22, lon: -22 };       // Atlantic: Brazil + Europe, Italy in view
@@ -369,7 +369,7 @@ export function initHero() {
     planeMat.opacity = routeFade;
 
     /* country / city pins */
-    const pinA = { it: 1 - ramp(0.1, 0.18, q), rj: ramp(0.18, 0.24, q) * (1 - ramp(0.34, 0.4, q)), lagom: ramp(0.66, 0.68, q) * (1 - ramp(0.73, 0.76, q)) };
+    const pinA = { it: 1 - ramp(0.1, 0.18, q), sc: ramp(0.18, 0.24, q) * (1 - ramp(0.34, 0.4, q)), lagom: ramp(0.66, 0.68, q) * (1 - ramp(0.73, 0.76, q)) };
     for (const k in pinEls) {
       const s = project(pinVec[k]);
       const vis = ramp(0.04, 0.22, s.facing) * (pinA[k] ?? 0) * (s.front ? 1 : 0) * clamp((t - 0.8) / 0.8);

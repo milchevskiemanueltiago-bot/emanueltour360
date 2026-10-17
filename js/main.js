@@ -55,16 +55,19 @@ $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
 /* Cases grid (built from data)                                        */
 /* ------------------------------------------------------------------ */
 $('#cases').innerHTML = CASES.map((c, i) => `
-  <button class="case reveal" type="button" data-tour="${c.key}" style="--d:${(i % 3) * 0.07}s">
-    <span class="case-img"><img src="assets/cases/${c.key}.webp" alt="" loading="lazy"><span class="case-360"><svg class="i"><use href="#i-360"/></svg></span></span>
+  <article class="case reveal" style="--d:${(i % 3) * 0.07}s">
+    <button class="case-img" type="button" data-tour="${c.key}" aria-label="Entrar no Tour 360° de ${c.name}"><img src="assets/cases/${c.key}.webp" alt="" loading="lazy"><span class="case-360"><svg class="i"><use href="#i-360"/></svg></span></button>
     ${c.logo ? `<img class="case-logo" src="assets/cases/${c.logo}.webp" alt="" loading="lazy">` : ''}
-    <span class="case-body">
+    <div class="case-body">
       <span class="case-place">${c.place}</span>
       <b>${c.name}</b>
       <em>${c.brand || c.segment}</em>
-      <span class="case-cta">Entrar no tour 360° <svg class="i"><use href="#i-arrow"/></svg></span>
-    </span>
-  </button>`).join('');
+      <div class="case-actions">
+        <button class="case-cta" type="button" data-tour="${c.key}">Entrar no Tour 360° <svg class="i"><use href="#i-arrow"/></svg></button>
+        ${c.site ? `<a class="case-site" href="${c.site}" target="_blank" rel="noopener">Página Oficial <svg class="i"><use href="#i-link"/></svg></a>` : ''}
+      </div>
+    </div>
+  </article>`).join('');
 
 /* ------------------------------------------------------------------ */
 /* Hero + modal                                                        */
