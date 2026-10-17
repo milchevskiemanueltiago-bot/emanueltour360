@@ -38,11 +38,6 @@ export const CASES = [
     maps: 'https://www.google.com/maps/place/Porto+Belo+Hall/@-27.1583305,-48.5565916,3a,90y,9.37h,97.19t/data=!3m8!1e1!3m6!1sCIABIhCf24IUJGg0krRL0stLiQQV!2e10!3e11!7i8400!8i4200!4m9!3m8!1s0x27c219b51e128b5b:0xe8f4e0bd0f6aee19!8m2!3d-27.1572469!4d-48.5563231!10e5!16s%2Fg%2F11x8r16rg3',
   },
   {
-    key: 'allwert', site: 'https://allresort.com.br/', name: 'Showroom All Wert', place: 'Porto Belo', segment: 'Construtora', logo: 'logo-allwert',
-    lat: -27.1675906, lon: -48.6260365, heading: 205, label: [-36, 10], short: 'All Wert',
-    maps: 'https://www.google.com/maps/place/Showroom+All+Wert/@-27.1672646,-48.6258294,3a,75y,131.41h,88.24t/data=!3m7!1e1!3m5!1sCIABIhBhL3l4C5gM1yKHdDGXiI2o!2e10!7i6530!8i3265!4m9!3m8!1s0x94d8af0048108669:0xf58829259515d3d1!8m2!3d-27.1675906!4d-48.6260365!10e5!16s%2Fg%2F11x25frrlr',
-  },
-  {
     key: 'bluesea', site: 'https://www.blueseahotel.com.br/', name: 'Hotel Blue Sea', place: 'Itapema', segment: 'Hotel',
     lat: -27.0663841, lon: -48.5949144, heading: 173, label: [110, -42], short: 'Hotel Blue Sea',
     maps: 'https://www.google.com/maps/place/Blue+Sea+Hotel+-+Itapema+SC/@-27.0663257,-48.5946123,3a,90y,218.81h,108.72t/data=!3m7!1e1!3m5!1sCIABIhAQt0QcXGXzH-PAmGZeZ7EO!2e10!7i8400!8i4200!4m12!3m11!1s0x94d8b0e09d9b966b:0x360d8c01a517ec30!5m2!4m1!1i2!8m2!3d-27.0663841!4d-48.5949144!10e5!16s%2Fg%2F11f5dc3cjw',

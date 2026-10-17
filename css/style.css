@@ -859,3 +859,9 @@ html.modal-open { overflow: hidden; }
 .sobre-stack .reveal-panel { width: 100%; max-width: 760px; padding-left: 0; border-left: 0; border-top: 1px solid rgba(212, 180, 122, .45); }
 .sobre-stack .reveal-panel.open { padding-top: 24px; }
 .sobre-stack .reveal-panel p { margin-inline: auto; }
+
+/* cases: linhas centralizadas (a última linha fica no meio) */
+.cases { display: flex; flex-wrap: wrap; justify-content: center; }
+.cases .case { flex: 0 1 calc((100% - 2 * 16px) / 3); }
+@media (max-width: 900px) { .cases .case { flex-basis: calc((100% - 16px) / 2); } }
+@media (max-width: 560px) { .cases .case { flex-basis: calc((100% - 10px) / 2); } }
