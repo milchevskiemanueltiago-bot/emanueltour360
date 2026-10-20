@@ -56,14 +56,14 @@ $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
 /* ------------------------------------------------------------------ */
 $('#cases').innerHTML = CASES.map((c, i) => `
   <article class="case reveal" style="--d:${(i % 3) * 0.07}s">
-    <button class="case-img" type="button" data-tour="${c.key}" aria-label="Entrar no Tour 360° de ${c.name}"><img src="assets/cases/${c.key}.webp" alt="" loading="lazy"><span class="case-360"><svg class="i"><use href="#i-360"/></svg></span></button>
+    <a class="case-img" href="${c.maps}" target="_blank" rel="noopener" aria-label="Entrar no Tour 360° de ${c.name} no Google Maps"><img src="assets/cases/${c.key}.webp" alt="" loading="lazy"><span class="case-360"><svg class="i"><use href="#i-360"/></svg></span></a>
     ${c.logo ? `<img class="case-logo" src="assets/cases/${c.logo}.webp" alt="" loading="lazy">` : ''}
     <div class="case-body">
       <span class="case-place">${c.place}</span>
       <b>${c.name}</b>
       <em>${c.brand || c.segment}</em>
       <div class="case-actions">
-        <button class="case-cta" type="button" data-tour="${c.key}">Entrar no Tour 360° <svg class="i"><use href="#i-arrow"/></svg></button>
+        <a class="case-cta" href="${c.maps}" target="_blank" rel="noopener">Entrar no Tour 360° <svg class="i"><use href="#i-arrow"/></svg></a>
         ${c.site ? `<a class="case-site" href="${c.site}" target="_blank" rel="noopener">Página Oficial <svg class="i"><use href="#i-link"/></svg></a>` : ''}
       </div>
     </div>
